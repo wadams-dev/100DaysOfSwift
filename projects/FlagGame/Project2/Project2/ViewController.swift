@@ -20,9 +20,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Score", style: .plain, target: self, action: #selector(showScore))
+        
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria",
         "poland", "russia", "spain", "uk", "us"]
-        
         
         button1.layer.borderWidth = 1
         button2.layer.borderWidth = 1
@@ -41,7 +42,7 @@ class ViewController: UIViewController {
         
         correctAnswer = Int.random(in: 0...2)
         
-        title = "\(countries[correctAnswer].uppercased()), SCORE: \(score)"
+        title = "\(countries[correctAnswer].uppercased())"
         
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
@@ -60,7 +61,7 @@ class ViewController: UIViewController {
             title = "Wrong! That’s the flag of \(countries[sender.tag].uppercased())"
         }
         
-        if questionsAsked == 5 {
+        if questionsAsked == 10 {
             title = "Game Complete"
             message = "Final score: \(score) out of \(questionsAsked)"
             alertTitle = "Restart"
@@ -70,11 +71,14 @@ class ViewController: UIViewController {
             alertTitle = "Continue"
         }
         
-        
-        
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: alertTitle, style: .default, handler: askQuestion))
-        
+        present(ac, animated: true)
+    }
+    
+    @objc func showScore() {
+        let ac = UIAlertController(title: "Current Score", message: "\(score)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
         present(ac, animated: true)
     }
     
